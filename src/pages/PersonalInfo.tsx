@@ -4,15 +4,15 @@ import { Sidebar } from "../components/Sidebar";
 
 export const PersonalInfo = () => {
   return (
-    <div className="h-screen flex flex-col md:flex-row">
-      <div className="w-full md:w-[280px] h-[60px] md:h-screen">
+    <div className="h-screen flex flex-col overflow-hidden md:flex-row">
+      <div className="w-[280px]  h-screen">
         <Sidebar />
       </div>
       <div className="flex w-full flex-col">
         <div>
           <Navbar />
         </div>
-        <div className="ms-8 my-[26px]">
+        <div className="ms-8 mt-[26px] h-full">
           <Container />
         </div>
       </div>

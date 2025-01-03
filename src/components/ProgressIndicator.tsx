@@ -1,33 +1,32 @@
 import React from "react";
 import { useProgress } from "../context/ProgressContext";
 
-const ProgressIndicator: React.FC<any> = () => {
+const ProgressIndicator: React.FC = () => {
   const { currentStep, mainStep } = useProgress();
+
   const steps: string[] = [
-    "Personal Info",
-    "Work Info",
+    "Personal Information",
+    "Work Information",
     "Education",
     "Payroll",
   ];
   const subStepsPerMain: number = 4;
 
-  const calculateSubStepForMainStep = (
-    currentStep: number,
-    mainStep: number
-  ): number => {
-    const startSubStep = (mainStep - 1) * subStepsPerMain;
-    return currentStep > startSubStep ? currentStep - startSubStep : 0;
-  };
-
-  const currentSubStep: number = calculateSubStepForMainStep(
-    currentStep,
-    mainStep
-  );
-
   const isMainStepComplete = (index: number): boolean => {
     const mainStepStart = index * subStepsPerMain + 1;
     const mainStepEnd = mainStepStart + subStepsPerMain - 1;
     return currentStep > mainStepEnd;
+  };
+
+  const calculateSubStepPosition = (subIndex: number) => {
+    const angle = (subIndex / subStepsPerMain) * 360 - 135;
+    const radius = 3;
+    const x = Math.cos((angle * Math.PI) / 180) * radius * 10;
+    const y = Math.sin((angle * Math.PI) / 180) * radius * 10;
+
+    return {
+      transform: `translate(${x}px, ${y}px)`,
+    };
   };
 
   return (
@@ -49,38 +48,27 @@ const ProgressIndicator: React.FC<any> = () => {
                   : "border-2 border-gray-300"
               }`}
             >
-              {/* Sub-Step Indicators (Nested within Main Step Circle) */}
+              {/* Sub-Step Indicators */}
               {mainStep === index + 1 && (
                 <div className="absolute flex items-center justify-center w-full h-full">
                   {[...Array(subStepsPerMain)].map((_, subIndex) => {
                     const subStepNumber: number =
                       (mainStep - 1) * subStepsPerMain + subIndex + 1;
-                    const angle = (subIndex / subStepsPerMain) * 360 - 135;
-                    const radius = 3;
 
-                    const x = Math.cos((angle * Math.PI) / 180) * radius * 10;
-                    const y = Math.sin((angle * Math.PI) / 180) * radius * 10;
                     return (
                       <div
                         key={subIndex}
-                        className="absolute flex items-center justify-center"
-                        style={{
-                          top: `calc(50% + ${y}px)`,
-                          left: `calc(50% + ${x}px)`,
-                        }}
+                        className="absolute flex items-center justify-center sub-step-position"
+                        style={calculateSubStepPosition(subIndex)}
                       >
                         <div
-                          className={`relative w-3 h-3 rounded-full
-                                                    ${
-                                                      currentStep ===
-                                                      subStepNumber
-                                                        ? "bg-green-500 border-2 border-white"
-                                                        : currentStep >
-                                                          subStepNumber
-                                                        ? "bg-green-500 border-2 border-white"
-                                                        : "bg-[#d9d9d9]/20 border-2 border-gray-300"
-                                                    }
-                                                  `}
+                          className={`relative w-3 h-3 rounded-full sub-step-circle ${
+                            currentStep === subStepNumber
+                              ? "bg-green-500 border-2 border-white"
+                              : currentStep > subStepNumber
+                              ? "bg-green-500 border-2 border-white"
+                              : "bg-[#d9d9d9]/20 border-2 border-gray-300"
+                          }`}
                         ></div>
                       </div>
                     );
@@ -93,7 +81,7 @@ const ProgressIndicator: React.FC<any> = () => {
                     ? "bg-white text-black"
                     : isMainStepComplete(index)
                     ? "bg-green-500 text-gray-800"
-                    : "bg-gray-300 "
+                    : "bg-gray-300"
                 }`}
               >
                 {isMainStepComplete(index) ? (
@@ -117,33 +105,25 @@ const ProgressIndicator: React.FC<any> = () => {
               </div>
             </div>
 
-            {/* Step Name & Connecting Line Wrapper */}
+            {/* Step Name & Connecting Line */}
             <div className="flex flex-col items-center relative">
-              {/* Step Name */}
               <p
-                className={`mt-2 text-sm ${
-                  mainStep === index + 1
-                    ? "text-green-500 font-semibold"
-                    : mainStep > index
-                    ? "text-black"
-                    : "text-gray-400"
+                className={`mt-2 text-[#637d92] text-base font-medium font-['Manrope'] leading-normal
                 }`}
               >
                 {step}
               </p>
-              {/* Connecting Line (Between Main Steps) */}
               {index < steps.length - 1 && (
                 <div
-                  className={`absolute h-[0px] border-2
-                    ${
-                      mainStep > index + 1
-                        ? "border-green-500"
-                        : "border-gray-300"
-                    }`}
+                  className={`absolute  h-[0px] border-2 ${
+                    mainStep > index + 1
+                      ? "border-green-500"
+                      : "border-gray-300"
+                  }`}
                   style={{
                     top: "-60%",
-                    left: "200%",
-                    width: "calc(200% - 2rem)",
+                    left: "150%",
+                    width: "calc(180% - 2rem)",
                     transform: "translateX(-50%)",
                     zIndex: -1,
                   }}

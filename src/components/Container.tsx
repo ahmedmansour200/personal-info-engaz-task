@@ -93,7 +93,7 @@ export const Container = () => {
   }
 
   return (
-    <div className="p-6 flex-col justify-between  w-full flex">
+    <div className="p-6 flex-col justify-between  w-full  h-full flex">
       <CenterOfContainer />
       <div className="my-4">
         <ProgressIndicator />
