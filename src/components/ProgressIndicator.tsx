@@ -1,5 +1,6 @@
 import React from "react";
 import { useProgress } from "../context/ProgressContext";
+import { IsComplect } from "../icons/IsComplect";
 
 const ProgressIndicator: React.FC = () => {
   const { currentStep, mainStep } = useProgress();
@@ -84,31 +85,18 @@ const ProgressIndicator: React.FC = () => {
                     : "bg-gray-300"
                 }`}
               >
-                {isMainStepComplete(index) ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="white"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m4.5 12.75 6 6 9-13.5"
-                    />
-                  </svg>
-                ) : (
-                  index + 1
-                )}
+                {isMainStepComplete(index) ? <IsComplect /> : index + 1}
               </div>
             </div>
 
             {/* Step Name & Connecting Line */}
             <div className="flex flex-col items-center relative">
               <p
-                className={`mt-2 text-[#637d92] text-base font-medium font-['Manrope'] leading-normal
+                className={`mt-2 text-base font-medium font-['Manrope'] leading-normal
+                } ${
+                  isMainStepComplete(index)
+                    ? "text-[#003465]"
+                    : "text-[#637D92]"
                 }`}
               >
                 {step}
@@ -122,8 +110,8 @@ const ProgressIndicator: React.FC = () => {
                   }`}
                   style={{
                     top: "-60%",
-                    left: "150%",
-                    width: "calc(180% - 2rem)",
+                    left: "180px",
+                    width: "265px",
                     transform: "translateX(-50%)",
                     zIndex: -1,
                   }}
