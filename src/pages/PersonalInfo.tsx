@@ -4,7 +4,7 @@ import { Sidebar } from "../components/Sidebar";
 
 export const PersonalInfo = () => {
   return (
-    <div className="h-screen flex flex-col overflow-hidden md:flex-row">
+    <div className="h-screen flex flex-col 2xl:overflow-hidden md:flex-row">
       <div className="w-[280px]  h-screen">
         <Sidebar />
       </div>
