@@ -1,7 +1,8 @@
 import "./App.css";
+import { PersonalInfo } from "./pages/PersonalInfo";
 
 function App() {
-  return <h1>the name</h1>;
+  return <PersonalInfo />;
 }
 
 export default App;
